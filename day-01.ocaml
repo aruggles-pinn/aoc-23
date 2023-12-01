@@ -1,0 +1,51 @@
+open Core;;
+
+let parse_line line =
+  let digits = String.to_list line
+                |> List.filter_map ~f:(fun c ->
+                     match Int.of_string (String.of_char c) with
+                     | exception _ -> None
+                     | number -> Some number) in
+  let first = List.hd_exn digits in
+  let last = List.last_exn digits in
+  Int.of_string (Int.to_string first ^ Int.to_string last)
+;;
+
+let main1 input =
+  let data = String.split_lines input |> List.map ~f:parse_line in
+  let sum = List.fold ~init:0 ~f:(+) data in
+  Printf.printf "Part 1: %d\n" sum
+;;
+
+let number_map = [("zero", 0); ("one", 1); ("two", 2); ("three", 3); ("four", 4);
+                  ("five", 5); ("six", 6); ("seven", 7); ("eight", 8); ("nine", 9)];;
+
+let replace_first_instance str key value =
+  let regex = Str.regexp_string key in
+  Str.replace_first regex (string_of_int value) str
+;;
+
+let main2 input =
+  let data = String.split_lines input in
+  let process_line line =
+    let least_index key = try Some (String.index line key.[0]) with Not_found -> None in
+    let max_index key = try Some (String.rindex line key.[0]) with Not_found -> None in
+    let replace_least line =
+      match List.filter_map number_map ~f:(fun (k, v) ->
+            Option.map (least_index k) ~f:(fun idx -> (idx, k, v))) with
+      | [] -> line
+      | lst -> let _, k, v = List.min_elt lst ~compare:(fun (x, _, _) (y, _, _) -> compare x y) in
+               replace_first_instance line k v in
+    let replace_most line =
+      match List.filter_map number_map ~f:(fun (k, v) ->
+            Option.map (max_index k) ~f:(fun idx -> (idx, k, v))) with
+      | [] -> line
+      | lst -> let _, k, v = List.max_elt lst ~compare:(fun (x, _, _) (y, _, _) -> compare x y) in
+               replace_first_instance line k v in
+    line |> replace_least |> replace_most in
+  data |> List.map ~f:process_line |> String.concat ~sep:"\n"
+;;
+
+(* Example usage *)
+let input = "your input string here";;
+main1 (main2 (main2 input));;
