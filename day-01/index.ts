@@ -1,29 +1,16 @@
 console.log("aoc 2023 day 01");
 
-const fs = require("fs").promises;
-
-async function readInputFile(filePath) {
-  try {
-    const data = await fs.readFile(filePath, "utf8");
-    return data;
-  } catch (error) {
-    console.error("Error reading file:", error);
-    return "";
-  }
-}
+import { readLines, sum } from "../utils/index.ts";
 
 function parseLine(line) {
-  const numbers = line.match(/[0-9]/g) || [];
-  const [a] = numbers;
-  const [b] = numbers.reverse();
+  const [a] = line.match(/[0-9]/g) || [];
+  const [b] = (line.match(/[0-9]/g) || []).reverse();
   return parseInt(`${a}${b}`);
 }
 
 async function main() {
-  const input = await readInputFile("./test/input.txt");
-  const data = input.split("\n").map(parseLine);
-  const sum = data.reduce((acc, curr) => acc + curr, 0);
-  console.log("Part 1: ", sum);
+  const value = sum((await readLines("./day-01/input.txt")).map(parseLine));
+  console.log("Part 1: ", value);
 }
 
 const numbers = {
@@ -69,14 +56,13 @@ function mapLatestNumber(line) {
 }
 
 async function main2() {
-  const input = await readInputFile("./test/input.txt");
-  const data = input
-    .split("\n")
-    .map(mapEarliestNumber)
-    .map(mapLatestNumber)
-    .map(parseLine);
-  const sum = data.reduce((acc, curr) => acc + curr, 0);
-  console.log("Part 1: ", sum);
+  const value = sum(
+    (await readLines("./day-01/input.txt"))
+      .map(mapEarliestNumber)
+      .map(mapLatestNumber)
+      .map(parseLine)
+  );
+  console.log("Part 2: ", value);
 }
 
 main();
