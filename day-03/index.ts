@@ -15,8 +15,9 @@ async function main() {
     const near = adj.map((vec) => {
       const items: any[] = [];
       const row = matrix.getRow(vec[1]);
-      // check left and right
+
       let index = vec[0];
+
       while (index >= 0) {
         if (isNaN(parseInt(row[index]))) break;
         items.unshift(row[index]);
@@ -55,7 +56,7 @@ async function main2() {
     const near = adj.map((vec) => {
       const items: any[] = [];
       const row = matrix.getRow(vec[1]);
-      // check left and right
+
       let index = vec[0];
       while (index >= 0) {
         if (isNaN(parseInt(row[index]))) break;
