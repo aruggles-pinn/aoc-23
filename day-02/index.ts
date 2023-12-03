@@ -1,4 +1,5 @@
 // Path: day-02/index.ts
+
 import * as Utils from "../utils/index.ts";
 
 const initial = {
