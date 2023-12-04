@@ -9,6 +9,16 @@ export function isFunction(value: any): value is Function {
   return typeof value === "function";
 }
 
+export function values<T>(
+  obj: { [key: string | number]: T } | Map<string | number, T>
+): T[] {
+  if (obj instanceof Map) {
+    return Array.from(obj.values());
+  }
+
+  return Object.keys(obj).map((key) => obj[key]);
+}
+
 export function uniq<T>(arr: T[][]): T[][] {
   return arr.filter((value, index, self) => {
     return (
