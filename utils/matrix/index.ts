@@ -49,17 +49,17 @@ export class Matrix<T> {
 
   filter(callback: (value: T, vec: Vector) => boolean): Vector[] {
     const result: Vector[] = [];
-    this.forEach((value, i, j) => {
-      if (callback(value, [j, i])) {
-        result.push([j, i]);
+    this.forEach((value, vec) => {
+      if (callback(value, vec)) {
+        result.push(vec);
       }
     });
     return result;
   }
 
-  forEach(callback: (value: T, row: number, column: number) => void) {
+  forEach(callback: (value: T, vec: Vector) => void) {
     this.matrix.forEach((row, i) =>
-      row.forEach((value, j) => callback(value, i, j))
+      row.forEach((value, j) => callback(value, [i, j]))
     );
   }
 
@@ -88,9 +88,9 @@ export class Matrix<T> {
     return result;
   }
 
-  map<U>(callback: (value: T, row: number, column: number) => U) {
+  map<U>(callback: (value: T, vec: Vector) => U) {
     return this.matrix.map((row, i) =>
-      row.map((value, j) => callback(value, i, j))
+      row.map((value, j) => callback(value, [i, j]))
     );
   }
 

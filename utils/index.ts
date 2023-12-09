@@ -32,7 +32,7 @@ export function uniq<T>(arr: T[][]): T[][] {
 export async function readMatrix<T>(input: string): Promise<Matrix<T>> {
   const lines = await readLines(input);
   return new Matrix(
-    lines.map((line) => line.split("").map((cell) => cell as T))
+    lines.map((line) => line.split(/ +/g).map((cell) => cell as T))
   );
 }
 
