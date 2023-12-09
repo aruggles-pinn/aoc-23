@@ -89,7 +89,7 @@ async function main() {
   console.log("🚀 ~ file: index.ts:67 ~ main ~ result:", Math.min(...result));
 }
 
-main();
+// main();
 
 const parseSeeds2 = (line?: string) => {
   if (!line) return [];
